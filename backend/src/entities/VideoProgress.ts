@@ -1,10 +1,10 @@
-// src/entities/VideoProgress.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   Unique,
+  type Relation,
 } from 'typeorm';
 import { User } from './User.js';
 import { Video } from './Video.js';
@@ -15,18 +15,30 @@ export class VideoProgress {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => User, (u) => u.progress, { eager: false })
-  user!: User;
+  @ManyToOne(() => User, (user) => user.progress, {
+    onDelete: 'CASCADE',
+  })
+  user!: Relation<User>;
 
-  @ManyToOne(() => Video, (v) => v.progress, { eager: false })
-  video!: Video;
+  @ManyToOne(() => Video, (video) => video.progress, {
+    onDelete: 'CASCADE',
+  })
+  video!: Relation<Video>;
 
+  // Last watched position in seconds (or any unit you use)
   @Column({ type: 'int', default: 0 })
-  positionSeconds!: number;
+  lastPosition!: number;
 
+  // Percentage watched (0–100) if you track it
   @Column({ type: 'float', default: 0 })
-  completedPercent!: number;
+  progressPercent!: number;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'boolean', default: false })
+  completed!: boolean;
+
+  @Column({
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updatedAt!: Date;
 }
