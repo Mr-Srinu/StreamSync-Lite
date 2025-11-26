@@ -1,35 +1,39 @@
+// src/entities/Video.ts
 import {
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   Column,
   OneToMany,
-  type Relation,
 } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { VideoProgress } from './VideoProgress.js';
 
 @Entity({ name: 'videos' })
 export class Video {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  @PrimaryColumn({ type: 'varchar', length: 32 })
+  videoId!: string; // YouTube ID
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', length: 300 })
   title!: string;
 
-  @Column({ type: 'varchar', length: 500 })
-  description!: string;
+  @Column({ type: 'text', nullable: true })
+  description!: string | null;
 
   @Column({ type: 'varchar', length: 500 })
-  url!: string;
+  thumbnailUrl!: string;
+
+  @Column({ type: 'varchar', length: 120 })
+  channelId!: string;
+
+  @Column({ type: 'varchar', length: 200, nullable: true })
+  channelTitle!: string | null;
+
+  @Column({ type: 'datetime' })
+  publishedAt!: Date;
 
   @Column({ type: 'int', default: 0 })
   durationSeconds!: number;
 
-  @Column({
-    type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  publishedAt!: Date;
-
-  @OneToMany(() => VideoProgress, (progress) => progress.video)
+  @OneToMany(() => VideoProgress, (p) => p.video)
   progress!: Relation<VideoProgress[]>;
 }
