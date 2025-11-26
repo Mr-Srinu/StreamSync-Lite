@@ -1,10 +1,11 @@
+// src/entities/User.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  type Relation,
 } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { FcmToken } from './FcmToken.js';
 import { VideoProgress } from './VideoProgress.js';
 import { Notification } from './Notification.js';
@@ -21,14 +22,14 @@ export class User {
   email!: string;
 
   @Column({ type: 'varchar', length: 200 })
-  password!: string; // store hashed password in production
+  password!: string; // TODO: hash in production
 
-  @OneToMany(() => FcmToken, (token) => token.user)
+  @OneToMany(() => FcmToken, (t) => t.user)
   fcmTokens!: Relation<FcmToken[]>;
 
-  @OneToMany(() => VideoProgress, (progress) => progress.user)
+  @OneToMany(() => VideoProgress, (p) => p.user)
   progress!: Relation<VideoProgress[]>;
 
-  @OneToMany(() => Notification, (notification) => notification.user)
+  @OneToMany(() => Notification, (n) => n.user)
   notifications!: Relation<Notification[]>;
 }
