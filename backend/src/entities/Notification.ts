@@ -1,9 +1,9 @@
-// src/entities/Notification.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  type Relation,
 } from 'typeorm';
 import { User } from './User.js';
 
@@ -12,21 +12,23 @@ export class Notification {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => User, (u) => u.notifications, { eager: false })
-  user!: User;
+  @ManyToOne(() => User, (user) => user.notifications, {
+    onDelete: 'CASCADE',
+  })
+  user!: Relation<User>;
 
   @Column({ type: 'varchar', length: 200 })
   title!: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'varchar', length: 500 })
   body!: string;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'boolean', default: false })
+  read!: boolean;
+
+  @Column({
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt!: Date;
-
-  @Column({ type: 'boolean', default: false })
-  isRead!: boolean;
-
-  @Column({ type: 'boolean', default: false })
-  deleted!: boolean;
 }
