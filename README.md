@@ -1,87 +1,95 @@
-#StreamSync Lite 
+# StreamSync Lite 
 
-StreamSync Lite is an end-to-end mobile learning platform featuring video streaming, resume playback, push notifications, offline caching, and real-time progress sync.
-This repository contains both the Flutter mobile app and the Node.js backend deployed on AWS EC2 + RDS.
+StreamSync Lite is a complete mobile learning application built using **Flutter**, **Node.js**, **TypeORM**, and **AWS RDS**.  
+The app provides **authentication**, **video streaming**, **playback resume**, **offline support**, and **push notifications** via **Firebase Cloud Messaging (FCM)**.
 
-📁 Project Structure
+---
+
+## 📁 Project Structure
+
+```text
 StreamSync-Lite/
 │
-├── frontend/                     # Flutter mobile app
+├── frontend/
 │   ├── lib/
-│   ├── android/ ios/
+│   ├── android/
+│   ├── ios/
 │   └── pubspec.yaml
 │
-├── backend/                      # Node.js + TypeORM REST API
+├── backend/
 │   ├── src/
-│   │   ├── main.ts               # All API routes
-│   │   ├── data-source.ts        # DB connection
-│   │   └── entities/             # ORM models
+│   │   ├── main.ts
+│   │   ├── data-source.ts
+│   │   └── entities/
 │   ├── package.json
-│   ├── Dockerfile
 │   ├── tsconfig.json
+│   ├── Dockerfile
 │   └── .env.example
 │
 └── README.md
+```
 
-🖼 Architecture Diagram (Mermaid)
+---
 
-The diagram automatically renders on GitHub.
+## 🖼 Architecture Diagram
 
+```mermaid
 flowchart LR
-    A[Flutter App] -->|API Calls| B[Node.js Backend - Express + TypeORM]
-    B -->|Queries| C[(AWS RDS MySQL)]
-    B -->|Push Requests| D[Firebase Cloud Messaging]
-    D -->|Push Notifications| A
+    A[Flutter App] -->|REST API| B[Node.js Backend<br/>Express + TypeORM]
+    B -->|SQL Queries| C[(AWS RDS MySQL)]
+    B -->|Send Push| D[Firebase Cloud Messaging]
+    D -->|Push Notification| A[Flutter App]
+    A -->|Video Streaming| E[Video CDN / Storage]
+```
 
-    A -->|Video Streaming| E[Video CDN / YouTube / Custom Storage]
+---
 
-    subgraph Mobile Features
-        A1[Login / Register]
-        A2[Video Feed]
-        A3[Player + Resume]
-        A4[Offline Cache]
-        A5[Notifications]
-    end
+## 🌐 Live Backend URL
 
-🌐 Live Backend URL
+```text
+http://35.173.184.177:3000/
+```
 
-Replace with your actual deployment URL:
+### 🔍 Health Check
 
-http://your-ec2-public-ip:3000
-
-
-Health check:
-
+```bash
 GET /health
+```
 
-📸 Demo Video & Screenshots
-📽 Demo Video (2–4 minutes)
+---
 
-Replace this with your own:
+## 📸 Demo Video & Screenshots
 
+### 🎬 Demo Video (2–4 minutes)
+
+Replace this link:
+
+```text
 https://youtu.be/demo-video-link
+```
 
-📷 App Screenshots
+### 🖼 Screenshots
+
+```markdown
 ![Login](docs/login.png)
-![Home Feed](docs/feed.png)
-![Video Player](docs/player.png)
+![Feed](docs/feed.png)
+![Player](docs/player.png)
 ![Notifications](docs/notifications.png)
+```
 
-🔐 Environment Configuration
+---
 
-All env variables are placed inside backend/.env.example
+## 🔐 Environment Configuration
 
+Check the ".env.example" file in "/backend/"
 
-Include .env.example:
+All configurations are listed there, Just copy paste inside your ".env" file
 
-DB_HOST=
-DB_PORT=
-DB_USER=
-DB_PASSWORD=
-DB_NAME=
+---
 
+## 🐳 Backend Dockerfile
 
-🐳 Backend Dockerfile
+```dockerfile
 FROM node:18-alpine
 
 WORKDIR /app
@@ -96,142 +104,162 @@ RUN npm run build
 EXPOSE 3000
 
 CMD ["node", "dist/main.js"]
+```
 
-🛠 Backend Setup – AWS EC2 Deployment
-1. SSH Into EC2
-ssh -i key.pem ubuntu@your-ec2-ip
+---
 
-2. Install Node, Git, Build Tools
+## 🚀 Backend Deployment (AWS EC2)
+
+### 1️⃣ SSH into your instance
+
+```bash
+ssh -i aws_login2.pem ubuntu@35.173.184.177
+```
+
+### 2️⃣ Install Node.js & Git
+
+```bash
 sudo apt update
-sudo apt install -y nodejs npm git
+sudo apt install -y git nodejs npm
+```
 
-3. Clone Repository
-git clone https://github.com/you/StreamSync-Lite.git
+### 3️⃣ Clone repository
+
+```bash
+git clone https://github.com/Mr-Srinu/StreamSync-Lite.git
 cd StreamSync-Lite/backend
+```
 
-4. Install Dependencies
+### 4️⃣ Install dependencies
+
+```bash
 npm install
+```
 
-5. Configure Environment Variables
+### 5️⃣ Create `.env`
+
+```bash
 nano .env
+```
 
+Paste your environment variables and save.
 
-Paste your DB + FCM + JWT settings.
+### 6️⃣ Build backend
 
-6. Build & Run
+```bash
 npm run build
-node dist/main.js
+```
 
-7. Run Backend in Background (PM2)
+### 7️⃣ Run backend with PM2 (background mode)
+
+```bash
 sudo npm install -g pm2
 pm2 start dist/main.js --name streamsync
 pm2 save
 pm2 startup
+```
 
-🛢 AWS RDS Setup
+---
 
-Launch MySQL RDS instance
+## 🛢 AWS RDS Setup
 
-Add inbound rule:
+1. Create a **MySQL RDS** instance in AWS.
+2. Allow inbound access from your **EC2 security group**.
+3. Initialize database:
 
-MySQL/Aurora – port 3306 – allow EC2 security group
+   ```bash
+   mysql -h streamsync.c278q6wy89gb.us-east-1.rds.amazonaws.com -u admin -p
+   ```
 
+   Inside MySQL:
 
-Initialize DB:
+   ```sql
+   CREATE DATABASE streamsync;
+   ```
 
-mysql -h your-rds-endpoint -u admin -p
-CREATE DATABASE streamsync;
+TypeORM will generate tables automatically on first run (if configured).
 
+---
 
-Tables auto-generate from TypeORM.
+## 📱 Frontend Setup (Flutter)
 
-📱 Flutter App Setup
-1. Update ApiClient Base URL
+### 1️⃣ Update API Base URL
 
-lib/services/api_client.dart:
+In `lib/services/api_client.dart`:
 
-static const baseUrl = "http://your-ec2-ip:3000";
+```dart
+const String kApiBaseUrl = 'http://35.173.184.177';
+```
 
-2. Install Packages
+### 2️⃣ Install dependencies
+
+```bash
 flutter pub get
+```
 
-3. Build APK / iOS
+### 3️⃣ Build APK
+
+```bash
 flutter build apk
-# OR
-flutter build ios
+```
 
-🔔 Push Notification Setup (FCM)
+(You can find the APK in `build/app/outputs/flutter-apk/`.)
 
-Add Firebase to Flutter app
+---
 
-Add google-services.json
+## 🔔 Push Notification (FCM) Setup
 
-Add FCM Server Key to .env
+1. Add **Firebase** to the Flutter app (Android config).
+2. Add `google-services.json` to `android/app/`.
+3. Put **FCM server key** inside backend `.env` (`FCM_SERVER_KEY`).
+4. App sends FCM token to backend on login/launch.
+5. Test push endpoint:
 
-Backend stores tokens in fcm_tokens table
+   ```bash
+   POST /notifications/send-test
+   ```
 
-User can trigger “Test Push” from profile screen
+---
 
-Test endpoint:
+## 🧪 API Endpoints
 
-POST /notifications/send-test
+### 🔑 Authentication
 
-🧪 Core API Endpoints
-Auth
+```bash
 POST /auth/register
 POST /auth/login
+```
 
-Videos
-GET /videos
+### 🎞 Videos
+
+```bash
+GET  /videos
 POST /videos/progress
+```
 
-Notifications
-GET /notifications/:userId
-POST /notifications/send-test
+### 🔔 Notifications
+
+```bash
+GET    /notifications/:userId
+POST   /notifications/send-test
 DELETE /notifications/:id
+```
 
-Health
+### ❤️ Health Check
+
+```bash
 GET /health
+```
 
-📦 Tech Stack
-Frontend
+---
 
-Flutter
+## 🔗 Demo Links (Replace with your own)
 
-Provider / Stateful Architecture
+```text
+App Demo Video: https://youtu.be/demo_link
+Backend URL:     http://your-ec2-ip:3000
+Screenshots:     /docs/screenshots/
+```
 
-Video Player
+---
 
-Offline download
-
-FCM notifications
-
-Backend
-
-Node.js
-
-Express
-
-TypeORM
-
-MySQL (AWS RDS)
-
-Firebase Admin SDK
-
-PM2 (background runtime on EC2)
-
-📜 Assignment Checklist
-
-✔ /frontend + /backend included
-✔ README with architecture diagram
-✔ .env.example
-✔ Dockerfile
-✔ AWS EC2 deployment
-✔ AWS RDS setup
-✔ Working push notifications
-✔ Video demo link
-✔ Clean documentation
-
-📄 License
-
-MIT or any license you prefe
