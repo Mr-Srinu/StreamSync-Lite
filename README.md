@@ -71,10 +71,11 @@ https://youtu.be/demo-video-link
 ### 🖼 Screenshots
 
 ```markdown
-![Login](docs/login.png)
-![Feed](docs/feed.png)
-![Player](docs/player.png)
-![Notifications](docs/notifications.png)
+![Login](https://raw.githubusercontent.com/Mr-Srinu/StreamSync-Lite/main/Screenshots/Downloads.png)
+![Home](https://raw.githubusercontent.com/Mr-Srinu/StreamSync-Lite/main/Screenshots/Home.png)
+![Player](https://raw.githubusercontent.com/Mr-Srinu/StreamSync-Lite/main/Screenshots/Player.png)
+![Notifications](https://raw.githubusercontent.com/Mr-Srinu/StreamSync-Lite/main/Screenshots/Notifications.png)
+![Profile](https://raw.githubusercontent.com/Mr-Srinu/StreamSync-Lite/main/Screenshots/Profile.png)
 ```
 
 ---
