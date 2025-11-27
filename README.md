@@ -58,15 +58,6 @@ GET /health
 
 ---
 
-## 📸 Demo Video & Screenshots
-
-### 🎬 Demo Video (2–4 minutes)
-
-Replace this link:
-
-```text
-https://youtu.be/demo-video-link
-```
 
 ### 🖼 Screenshots
 
@@ -143,7 +134,7 @@ npm install
 nano .env
 ```
 
-Paste your environment variables and save.
+Paste environment variables and save.
 
 ### 6️⃣ Build backend
 
@@ -254,13 +245,21 @@ GET /health
 
 ---
 
-## 🔗 Demo Links (Replace with your own)
+## 🔗 Demo Links 
 
-```text
-App Demo Video: https://youtu.be/demo_link
-Backend URL:     http://your-ec2-ip:3000
-Screenshots:     /docs/screenshots/
-```
+# Demo Video
+
+https://drive.google.com/file/d/1oV6MYJtOfCd1965HMVssfWyKS7yQPdJI/view?usp=drivesdk
+
+# Backend URL
+
+http://35.173.184.177:3000/
+
+# Screen shots
+
+https://github.com/Mr-Srinu/StreamSync-Lite/tree/main/Screenshots
+
+---
 
 ---
 
