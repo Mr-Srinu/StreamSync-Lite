@@ -31,7 +31,7 @@ StreamSync-Lite/
 
 ---
 
-## 🖼 Architecture Diagram
+##  Architecture Diagram
 
 ```mermaid
 flowchart LR
@@ -44,13 +44,13 @@ flowchart LR
 
 ---
 
-## 🌐 Live Backend URL
+##  Live Backend URL
 
 ```text
 http://35.173.184.177:3000/
 ```
 
-### 🔍 Health Check
+###  Health Check
 
 ```bash
 GET /health
@@ -59,7 +59,7 @@ GET /health
 ---
 
 
-### 🖼 Screenshots
+###  Screenshots
 
 ```markdown
 ![Login](https://raw.githubusercontent.com/Mr-Srinu/StreamSync-Lite/main/Screenshots/Downloads.png)
@@ -71,7 +71,7 @@ GET /health
 
 ---
 
-## 🔐 Environment Configuration
+##  Environment Configuration
 
 Check the ".env.example" file in "/backend/"
 
@@ -79,7 +79,7 @@ All configurations are listed there, Just copy paste inside your ".env" file
 
 ---
 
-## 🐳 Backend Dockerfile
+##  Backend Dockerfile
 
 ```dockerfile
 FROM node:18-alpine
@@ -100,7 +100,7 @@ CMD ["node", "dist/main.js"]
 
 ---
 
-## 🚀 Backend Deployment (AWS EC2)
+##  Backend Deployment (AWS EC2)
 
 ### 1️⃣ SSH into your instance
 
@@ -153,7 +153,7 @@ pm2 startup
 
 ---
 
-## 🛢 AWS RDS Setup
+##  AWS RDS Setup
 
 1. Create a **MySQL RDS** instance in AWS.
 2. Allow inbound access from your **EC2 security group**.
@@ -173,7 +173,7 @@ TypeORM will generate tables automatically on first run (if configured).
 
 ---
 
-## 📱 Frontend Setup (Flutter)
+##  Frontend Setup (Flutter)
 
 ### 1️⃣ Update API Base URL
 
@@ -199,7 +199,7 @@ flutter build apk
 
 ---
 
-## 🔔 Push Notification (FCM) Setup
+##  Push Notification (FCM) Setup
 
 1. Add **Firebase** to the Flutter app (Android config).
 2. Add `google-services.json` to `android/app/`.
@@ -213,23 +213,23 @@ flutter build apk
 
 ---
 
-## 🧪 API Endpoints
+##  API Endpoints
 
-### 🔑 Authentication
+###  Authentication
 
 ```bash
 POST /auth/register
 POST /auth/login
 ```
 
-### 🎞 Videos
+###  Videos
 
 ```bash
 GET  /videos
 POST /videos/progress
 ```
 
-### 🔔 Notifications
+###  Notifications
 
 ```bash
 GET    /notifications/:userId
@@ -237,7 +237,7 @@ POST   /notifications/send-test
 DELETE /notifications/:id
 ```
 
-### ❤️ Health Check
+###  Health Check
 
 ```bash
 GET /health
